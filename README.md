@@ -1,10 +1,13 @@
 # Reborn Easy Login Manager
 
-[![Windows Download](https://img.shields.io/badge/Download-Windows-blue?style=for-the-badge&logo=windows)](https://github.com/421p/RebornEasyLoginManager/releases/latest/download/EasyLoginManager.exe)
-[![macOS Download](https://img.shields.io/badge/Download-macOS-white?style=for-the-badge&logo=apple&logoColor=black)](https://github.com/421p/RebornEasyLoginManager/releases/latest/download/EasyLoginManager.dmg)
+[![Website](https://img.shields.io/badge/Website-Visit-e8b24c?style=for-the-badge)](https://haswelldev.github.io/RebornEasyLoginManager/)
+[![Windows Download](https://img.shields.io/badge/Download-Windows-blue?style=for-the-badge&logo=windows)](https://github.com/haswelldev/RebornEasyLoginManager/releases/latest/download/EasyLoginManager.exe)
+[![macOS Download](https://img.shields.io/badge/Download-macOS-white?style=for-the-badge&logo=apple&logoColor=black)](https://github.com/haswelldev/RebornEasyLoginManager/releases/latest/download/EasyLoginManager.dmg)
 
 
-A lightweight, cross-platform account manager designed for Lineage II players. Securely manage your accounts, passwords, and descriptions with ease.
+A lightweight, cross-platform account manager designed for Lineage II players ([L2 Reborn](https://l2reborn.org/)). Securely manage your accounts, passwords, and descriptions with ease — everything stays **local to your machine**.
+
+**Website:** https://haswelldev.github.io/RebornEasyLoginManager/
 
 
 ### Features

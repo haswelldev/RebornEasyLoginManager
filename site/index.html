@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reborn Easy Login Manager — Account manager for Lineage II (L2 Reborn)</title>
+<meta name="description" content="A lightweight, open-source, cross-platform account manager for Lineage II on L2 Reborn. Manage your accounts and passwords locally — nothing is ever uploaded. Free for Windows and macOS.">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Reborn Easy Login Manager">
+<meta property="og:description" content="A lightweight, open-source account manager for Lineage II (L2 Reborn). Your passwords stay on your device.">
+<meta property="og:image" content="assets/logo.png">
+
+<link rel="icon" type="image/png" href="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- Background flourish -->
+<div class="bg-glow" aria-hidden="true"></div>
+
+<header class="nav">
+  <a class="brand" href="#top">
+    <img src="assets/logo.png" alt="" class="brand-logo">
+    <span class="brand-name">Easy Login Manager</span>
+  </a>
+  <nav class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#safety">Safety</a>
+    <a href="#download">Download</a>
+    <a class="nav-github" href="https://github.com/haswelldev/RebornEasyLoginManager" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.71.08-.71 1.16.08 1.77 1.2 1.77 1.2 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.72-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.5 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5z"/></svg>
+      <span>GitHub</span>
+    </a>
+  </nav>
+</header>
+
+<main id="top">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-copy">
+      <a class="pill" href="https://l2reborn.org/" target="_blank" rel="noopener">
+        <span class="pill-dot"></span> Built for L2&nbsp;Reborn
+      </a>
+      <h1>Manage your <span class="grad">Lineage II</span> accounts with ease.</h1>
+      <p class="lead">
+        A fast, native desktop manager for your L2 Reborn logins. Keep every account, password,
+        and character note organized in one place — <strong>stored only on your computer.</strong>
+      </p>
+
+      <div class="download-row" id="download">
+        <a class="btn btn-primary" id="btn-mac" href="https://github.com/haswelldev/RebornEasyLoginManager/releases/latest/download/EasyLoginManager.dmg">
+          <svg viewBox="0 0 384 512" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M318.7 268c-.2-37 16.7-64.9 50.9-85.4-19.1-27.4-48-42.5-86.2-45.5-36.2-2.8-75.8 21.2-90.3 21.2-15.3 0-50.3-20.2-77.8-20.2C64.5 139 6.5 179.4 6.5 262c0 24.4 4.5 49.6 13.4 75.6 11.9 34.1 54.8 117.7 99.6 116.3 23.4-.6 39.9-16.6 70.4-16.6 29.6 0 44.9 16.6 70.9 16.6 45.2-.7 84-76.6 95.3-110.8-60.6-28.6-57.4-83.8-57.4-85.1zM256.5 79.4c25.2-30 22.9-57.3 22.2-67.4-22.3 1.3-48.1 15.2-62.8 32.3-16.2 18.4-25.7 41.1-23.7 66.9 24.1 1.9 46.1-10.5 64.3-31.8z"/></svg>
+          <span><b>Download for macOS</b><small>Universal .dmg</small></span>
+        </a>
+        <a class="btn btn-primary" id="btn-win" href="https://github.com/haswelldev/RebornEasyLoginManager/releases/latest/download/EasyLoginManager.exe">
+          <svg viewBox="0 0 448 512" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M0 93.7l183.6-25.3v177.4H0V93.7zm0 324.6l183.6 25.3V268.4H0v149.9zm203.8 28L448 480V268.4H203.8v177.9zm0-380.6v180.1H448V32L203.8 65.7z"/></svg>
+          <span><b>Download for Windows</b><small>Single .exe</small></span>
+        </a>
+      </div>
+
+      <div class="release-meta">
+        <a href="https://github.com/haswelldev/RebornEasyLoginManager/releases/latest" target="_blank" rel="noopener">Latest release: <strong id="version">{{VERSION}}</strong></a>
+        <span class="dot-sep">•</span>
+        <span>Free &amp; open source</span>
+        <span class="dot-sep">•</span>
+        <span>No account required</span>
+      </div>
+    </div>
+
+    <!-- App window mock -->
+    <div class="hero-visual" aria-hidden="true">
+      <div class="window">
+        <div class="window-bar">
+          <span class="tl tl-r"></span><span class="tl tl-y"></span><span class="tl tl-g"></span>
+          <span class="window-title">L2 Reborn EasyLogin Manager</span>
+        </div>
+        <div class="window-toolbar">
+          <span class="wb">Open</span><span class="wb">Save</span><span class="wb wb-accent">Add Account</span>
+          <span class="wb-spacer"></span><span class="wb wb-lang">English ▾</span>
+        </div>
+        <div class="window-search"><span class="search-ico">⌕</span> Search accounts…</div>
+        <ul class="window-list">
+          <li><span class="acc">MainTank_01</span><span class="desc">Paladin · Giran</span></li>
+          <li class="sel"><span class="acc">BuffBot_Prophet</span><span class="desc">Prophet · buffer</span></li>
+          <li class="dragging"><span class="acc">Spoiler_Alt</span><span class="desc">Dwarf · farm</span><span class="grip">⋮⋮</span></li>
+          <li class="drop-line"></li>
+          <li><span class="acc">Archer_Main</span><span class="desc">Hawkeye · PvP</span></li>
+          <li><span class="acc">Mage_Nuker</span><span class="desc">Sorcerer</span></li>
+        </ul>
+        <div class="window-status"><span>~/Documents/system.ini</span><span>5 / 199 accounts</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust strip -->
+  <section class="strip">
+    <div class="strip-item"><span class="strip-ico">🔒</span> Passwords never leave your device</div>
+    <div class="strip-item"><span class="strip-ico">⚡</span> Native &amp; lightweight</div>
+    <div class="strip-item"><span class="strip-ico">🌍</span> 7 languages</div>
+    <div class="strip-item"><span class="strip-ico">💾</span> Single-file, portable</div>
+  </section>
+
+  <!-- Features -->
+  <section id="features" class="section">
+    <div class="section-head">
+      <h2>Everything you need to juggle your accounts</h2>
+      <p>Designed for players who run many characters — mains, buffers, crafters and alts.</p>
+    </div>
+
+    <div class="features">
+      <article class="card">
+        <div class="card-ico">🗂️</div>
+        <h3>Unlimited alts</h3>
+        <p>Add, edit, duplicate and delete up to 199 accounts per file, each with its own description.</p>
+      </article>
+      <article class="card">
+        <div class="card-ico">✋</div>
+        <h3>Drag to reorder</h3>
+        <p>Grab any row and drag it — a floating preview follows your cursor and an insertion line shows exactly where it lands, with edge auto-scroll for long lists.</p>
+      </article>
+      <article class="card">
+        <div class="card-ico">🔎</div>
+        <h3>Instant search</h3>
+        <p>Filter accounts by login or description as you type. Find the right alt in a second.</p>
+      </article>
+      <article class="card">
+        <div class="card-ico">📋</div>
+        <h3>Copy password safely</h3>
+        <p>Right-click any account to copy its password to the clipboard — without ever revealing it on screen.</p>
+      </article>
+      <article class="card">
+        <div class="card-ico">⌨️</div>
+        <h3>Keyboard-first</h3>
+        <p>A full menu bar with shortcuts: open, save, add, rename, delete and reorder without touching the mouse.</p>
+      </article>
+      <article class="card">
+        <div class="card-ico">💾</div>
+        <h3>Never lose changes</h3>
+        <p>Unsaved edits are tracked with a title-bar marker and you're always prompted before closing or switching files.</p>
+      </article>
+      <article class="card">
+        <div class="card-ico">🌍</div>
+        <h3>Speaks your language</h3>
+        <p>Fully translated into English, French, Greek, Portuguese, Polish, Ossetian and Chinese.</p>
+      </article>
+      <article class="card">
+        <div class="card-ico">🧩</div>
+        <h3>Truly portable</h3>
+        <p>On Windows it's a single <code>.exe</code> with no installer and no dependencies. On macOS, a clean native app bundle.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- Safety -->
+  <section id="safety" class="section safety">
+    <div class="safety-grid">
+      <div class="safety-copy">
+        <span class="eyebrow">Privacy by design</span>
+        <h2>Your passwords stay <span class="grad">yours</span>.</h2>
+        <p>
+          Easy Login Manager works <strong>100% offline</strong>. It only reads and writes the local
+          <code>.ini</code> file that the L2 Reborn client already uses. There is no server, no account,
+          no telemetry and no network connection of any kind — your credentials are never uploaded,
+          synced or shared with anyone.
+        </p>
+        <p>
+          And because the entire app is <strong>open source</strong>, you don't have to take our word for it.
+          Anyone can read exactly what it does.
+        </p>
+        <div class="safety-actions">
+          <a class="btn btn-ghost" href="https://github.com/haswelldev/RebornEasyLoginManager" target="_blank" rel="noopener">Read the source</a>
+        </div>
+      </div>
+      <ul class="safety-list">
+        <li><span class="check">✓</span> No servers &amp; no cloud — nothing to breach</li>
+        <li><span class="check">✓</span> No tracking, ads or analytics</li>
+        <li><span class="check">✓</span> No network access required to run</li>
+        <li><span class="check">✓</span> Open source under the GPL license</li>
+        <li><span class="check">✓</span> Reads the same file format as the game</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- L2 Reborn -->
+  <section class="section reborn">
+    <div class="reborn-inner">
+      <h2>Made for <a href="https://l2reborn.org/" target="_blank" rel="noopener">L2&nbsp;Reborn</a></h2>
+      <p>
+        Easy Login Manager understands the <code>[L2REBORN_EASYLOGIN]</code> account file used by the
+        L2 Reborn client, so your logins are ready the moment you launch the game.
+        New to the server? Head over to <a href="https://l2reborn.org/" target="_blank" rel="noopener">l2reborn.org</a> to get started.
+      </p>
+    </div>
+  </section>
+
+  <!-- Download CTA -->
+  <section class="section cta">
+    <h2>Get Easy Login Manager</h2>
+    <p>Free, open source, and ready in seconds.</p>
+    <div class="download-row download-row--center">
+      <a class="btn btn-primary" href="https://github.com/haswelldev/RebornEasyLoginManager/releases/latest/download/EasyLoginManager.dmg">
+        <svg viewBox="0 0 384 512" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M318.7 268c-.2-37 16.7-64.9 50.9-85.4-19.1-27.4-48-42.5-86.2-45.5-36.2-2.8-75.8 21.2-90.3 21.2-15.3 0-50.3-20.2-77.8-20.2C64.5 139 6.5 179.4 6.5 262c0 24.4 4.5 49.6 13.4 75.6 11.9 34.1 54.8 117.7 99.6 116.3 23.4-.6 39.9-16.6 70.4-16.6 29.6 0 44.9 16.6 70.9 16.6 45.2-.7 84-76.6 95.3-110.8-60.6-28.6-57.4-83.8-57.4-85.1zM256.5 79.4c25.2-30 22.9-57.3 22.2-67.4-22.3 1.3-48.1 15.2-62.8 32.3-16.2 18.4-25.7 41.1-23.7 66.9 24.1 1.9 46.1-10.5 64.3-31.8z"/></svg>
+        <span><b>macOS</b><small>Universal .dmg</small></span>
+      </a>
+      <a class="btn btn-primary" href="https://github.com/haswelldev/RebornEasyLoginManager/releases/latest/download/EasyLoginManager.exe">
+        <svg viewBox="0 0 448 512" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M0 93.7l183.6-25.3v177.4H0V93.7zm0 324.6l183.6 25.3V268.4H0v149.9zm203.8 28L448 480V268.4H203.8v177.9zm0-380.6v180.1H448V32L203.8 65.7z"/></svg>
+        <span><b>Windows</b><small>Single .exe</small></span>
+      </a>
+    </div>
+    <p class="cta-note">All releases &amp; changelogs on <a href="https://github.com/haswelldev/RebornEasyLoginManager/releases" target="_blank" rel="noopener">GitHub</a>.</p>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="assets/logo.png" alt="" class="footer-logo">
+      <div>
+        <div class="footer-name">Reborn Easy Login Manager</div>
+        <div class="footer-sub">Open source · GPL licensed · Not affiliated with NCSoft.</div>
+      </div>
+    </div>
+    <div class="footer-links">
+      <a href="https://github.com/haswelldev/RebornEasyLoginManager" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://github.com/haswelldev/RebornEasyLoginManager/releases/latest" target="_blank" rel="noopener">Releases</a>
+      <a href="https://l2reborn.org/" target="_blank" rel="noopener">L2 Reborn</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Highlight the download button matching the visitor's OS.
+  (function () {
+    var p = navigator.platform || "";
+    var ua = navigator.userAgent || "";
+    var isMac = /Mac/i.test(p) || /Mac/i.test(ua);
+    var isWin = /Win/i.test(p) || /Win/i.test(ua);
+    var mac = document.getElementById("btn-mac");
+    var win = document.getElementById("btn-win");
+    if (isWin && win) win.classList.add("btn-suggested");
+    else if (isMac && mac) mac.classList.add("btn-suggested");
+  })();
+
+  // Keep the version label current even if the page wasn't rebuilt. The build
+  // step normally replaces {{VERSION}}; this is a progressive-enhancement
+  // fallback that reads the latest tag straight from the GitHub API.
+  (function () {
+    var el = document.getElementById("version");
+    if (!el) return;
+    fetch("https://api.github.com/repos/haswelldev/RebornEasyLoginManager/releases/latest")
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) { if (d && d.tag_name) el.textContent = d.tag_name; })
+      .catch(function () { /* offline or rate-limited: leave as-is */ });
+    if (el.textContent.indexOf("{{") === 0) el.textContent = "latest";
+  })();
+</script>
+
+</body>
+</html>

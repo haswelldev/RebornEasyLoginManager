@@ -6,6 +6,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 EasyLoginManager is a cross-platform C++11/wxWidgets GUI app for managing Lineage II (L2 Reborn) account credentials stored in a proprietary INI file format. It supports up to 199 accounts per file.
 
+## Keep docs & site in sync (IMPORTANT)
+
+Whenever you add or change a user-facing feature, update **all three** in the same change:
+1. **`README.md`** — the Features list (and any relevant section).
+2. **`site/index.html`** — the marketing site's features grid / copy (see `## Website` below).
+3. **`CLAUDE.md`** — this file, if architecture or the feature set changed.
+
+Treat a feature PR as incomplete until the README and the website reflect it. The site's download links and version label are handled automatically by the deploy workflow, so those don't need manual edits.
+
 ## Build Commands
 
 ### macOS
@@ -65,6 +74,14 @@ hideLogin=0
 - **On Windows**, translation JSON files are compiled into the executable as `RCDATA` resources (named `ID_I18N_EN`, etc.) via `resources.rc`, enabling single-file distribution. The loader tries Windows resources first, then falls back to the filesystem.
 - **On macOS**, JSON files are bundled inside `EasyLoginManager.app/Contents/Resources/i18n/`.
 - To add a language: add `i18n/<code>.json` (same key set as `en.json`), add the `{code, endonym}` entry to the table in `Languages.h`, add the file to `CMakeLists.txt`'s `I18N_FILES`, and add `ID_I18N_<CODE>` to `resources.rc` for Windows. The picker, selection mapping, and startup detection all derive from the `Languages.h` table.
+
+## Website
+
+- The marketing/download site is a dependency-free static site in `site/` (`index.html`, `styles.css`, `assets/logo.png`). No build tooling — edit the HTML/CSS directly.
+- Download buttons use the permanent `releases/latest/download/EasyLoginManager.{dmg,exe}` URLs, so they always point at the newest release without edits.
+- The version label uses a `{{VERSION}}` placeholder that `.github/workflows/pages.yml` replaces with the latest release tag at deploy time; a client-side script (`fetch` to the GitHub API) is a fallback.
+- `pages.yml` deploys `site/` to the **`gh-pages`** branch (via `peaceiris/actions-gh-pages`) on pushes touching `site/`, on published releases, and manually. One-time setup: repo Settings → Pages → Source = `gh-pages` branch. Published URL: `https://haswelldev.github.io/RebornEasyLoginManager/`.
+- To preview locally: `python3 -m http.server --directory site` (or the `site` config in `.claude/launch.json`).
 
 ## Platform Notes
 

@@ -1,0 +1,49 @@
+name: Deploy Website
+
+# Publishes the static site in site/ to the gh-pages branch. Runs when the site
+# changes, and whenever a release is published so the "latest release" label
+# stays current. Enable once in repo Settings → Pages → Source: gh-pages branch.
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'site/**'
+      - '.github/workflows/pages.yml'
+  release:
+    types: [ published ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: gh-pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Resolve latest release tag
+        id: rel
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG=$(gh release view --repo "${{ github.repository }}" --json tagName --jq '.tagName' 2>/dev/null || echo "")
+          if [ -z "$TAG" ]; then TAG="latest"; fi
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "Resolved release tag: $TAG"
+
+      - name: Inject latest version into the page
+        run: sed -i "s/{{VERSION}}/${{ steps.rel.outputs.tag }}/g" site/index.html
+
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
+          publish_branch: gh-pages
+          commit_message: "Deploy site (release ${{ steps.rel.outputs.tag }})"
