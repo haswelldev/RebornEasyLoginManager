@@ -13,6 +13,11 @@ public:
         SetVendorName("L2Reborn");
         SetAppName("EasyLoginManager");
 
+        // Follow the system light/dark theme on Windows (wxWidgets 3.3+).
+#if defined(__WXMSW__) && wxCHECK_VERSION(3, 3, 0)
+        MSWEnableDarkMode();
+#endif
+
         wxConfigBase* config = wxConfig::Get();
         wxString langCode = config->Read("/Language", "");
 

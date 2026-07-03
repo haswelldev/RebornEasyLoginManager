@@ -4,6 +4,7 @@
 #include "LanguageManager.h"
 #include "Languages.h"
 #include "IniParser.h"
+#include "Icons.h"
 #include <wx/config.h>
 #include <wx/filedlg.h>
 #include <wx/file.h>
@@ -17,6 +18,20 @@
 #include <wx/popupwin.h>
 #include <wx/dcmemory.h>
 #include <wx/settings.h>
+
+#ifdef __WXMSW__
+#include <dwmapi.h>
+// These attribute ids may be missing in older SDK headers.
+#ifndef DWMWA_USE_IMMERSIVE_DARK_MODE
+#define DWMWA_USE_IMMERSIVE_DARK_MODE 20
+#endif
+#ifndef DWMWA_WINDOW_CORNER_PREFERENCE
+#define DWMWA_WINDOW_CORNER_PREFERENCE 33
+#endif
+#ifndef DWMWA_SYSTEMBACKDROP_TYPE
+#define DWMWA_SYSTEMBACKDROP_TYPE 38
+#endif
+#endif
 
 // Custom command ids for actions without a suitable stock id.
 enum {
@@ -70,6 +85,23 @@ MainFrame::MainFrame() : wxFrame(nullptr, wxID_ANY, L("TITLE"), wxDefaultPositio
     UpdateTitle();
     UpdateStatusBar();
     UpdateControlsState();
+
+#ifdef __WXMSW__
+    // Windows 11 chrome: rounded corners, a Mica backdrop, and a dark title bar
+    // that follows the theme. These are no-ops on Windows 10 and earlier, so the
+    // calls are always safe.
+    if (HWND hwnd = reinterpret_cast<HWND>(GetHandle())) {
+        BOOL dark = FALSE;
+    #if wxCHECK_VERSION(3, 3, 0)
+        dark = wxSystemSettings::GetAppearance().IsDark();
+    #endif
+        DwmSetWindowAttribute(hwnd, DWMWA_USE_IMMERSIVE_DARK_MODE, &dark, sizeof(dark));
+        int corner = 2;   // DWMWCP_ROUND
+        DwmSetWindowAttribute(hwnd, DWMWA_WINDOW_CORNER_PREFERENCE, &corner, sizeof(corner));
+        int backdrop = 2; // DWMSBT_MAINWINDOW (Mica)
+        DwmSetWindowAttribute(hwnd, DWMWA_SYSTEMBACKDROP_TYPE, &backdrop, sizeof(backdrop));
+    }
+#endif
 }
 
 void MainFrame::SetupMenuBar() {
@@ -142,12 +174,10 @@ void MainFrame::SetupUI() {
     m_btnAdd = new wxButton(m_mainPanel, wxID_ADD, L("ADD_ACCOUNT"));
     m_btnSettings = new wxButton(m_mainPanel, wxID_PREFERENCES, L("MANAGER_SETTINGS"));
 
-#ifdef __WXMSW__
-    m_btnOpen->SetBitmap(wxArtProvider::GetBitmap(wxART_FILE_OPEN, wxART_BUTTON));
-    m_btnSave->SetBitmap(wxArtProvider::GetBitmap(wxART_FILE_SAVE, wxART_BUTTON));
-    m_btnAdd->SetBitmap(wxArtProvider::GetBitmap(wxART_NEW, wxART_BUTTON));
-    m_btnSettings->SetBitmap(wxArtProvider::GetBitmap(wxART_EXECUTABLE_FILE, wxART_BUTTON));
-#endif
+    m_btnOpen->SetBitmap(icons::Make(icons::kOpen));
+    m_btnSave->SetBitmap(icons::Make(icons::kSave));
+    m_btnAdd->SetBitmap(icons::Make(icons::kAdd));
+    m_btnSettings->SetBitmap(icons::Make(icons::kSettings));
 
     toolbarSizer->Add(m_btnOpen, 0, wxLEFT | wxRIGHT | wxBOTTOM, 5);
     toolbarSizer->Add(m_btnSave, 0, wxLEFT | wxRIGHT | wxBOTTOM, 5);
@@ -173,17 +203,16 @@ void MainFrame::SetupUI() {
     m_search->ShowSearchButton(true);
     m_search->ShowCancelButton(true);
     m_search->SetDescriptiveText(L("SEARCH_HINT"));
-    mainSizer->Add(m_search, 0, wxEXPAND | wxLEFT | wxRIGHT | wxBOTTOM, 10);
+    mainSizer->Add(m_search, 0, wxEXPAND | wxLEFT | wxRIGHT | wxBOTTOM, 12);
 
     // List
     m_listView = new wxListView(m_mainPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_SINGLE_SEL);
-#ifdef __WXMSW__
-    m_listView->SetWindowStyleFlag(m_listView->GetWindowStyleFlag() | wxLC_HRULES | wxLC_VRULES);
-#endif
+    // Zebra striping reads cleaner than the old HRULES/VRULES grid.
+    m_listView->EnableAlternateRowColours(true);
     m_listView->AppendColumn(L("ACCOUNT_ID"), wxLIST_FORMAT_LEFT, 180);
     m_listView->AppendColumn(L("DESCRIPTION"), wxLIST_FORMAT_LEFT, 250);
 
-    mainSizer->Add(m_listView, 1, wxEXPAND | wxLEFT | wxRIGHT | wxBOTTOM, 10);
+    mainSizer->Add(m_listView, 1, wxEXPAND | wxLEFT | wxRIGHT | wxBOTTOM, 12);
 
     // Empty-state hint, centered over the (empty) list.
     m_emptyHint = new wxStaticText(m_listView, wxID_ANY, L("EMPTY_HINT"),
@@ -219,14 +248,12 @@ void MainFrame::SetupUI() {
     m_btnEdit = new wxButton(m_mainPanel, wxID_EDIT, L("EDIT"));
     m_btnDel = new wxButton(m_mainPanel, wxID_DELETE, L("DELETE"));
 
-#ifdef __WXMSW__
-    m_btnTop->SetBitmap(wxArtProvider::GetBitmap(wxART_GOTO_FIRST, wxART_BUTTON));
-    m_btnUp->SetBitmap(wxArtProvider::GetBitmap(wxART_GO_UP, wxART_BUTTON));
-    m_btnDown->SetBitmap(wxArtProvider::GetBitmap(wxART_GO_DOWN, wxART_BUTTON));
-    m_btnBottom->SetBitmap(wxArtProvider::GetBitmap(wxART_GOTO_LAST, wxART_BUTTON));
-    m_btnEdit->SetBitmap(wxArtProvider::GetBitmap(wxART_EDIT, wxART_BUTTON));
-    m_btnDel->SetBitmap(wxArtProvider::GetBitmap(wxART_DELETE, wxART_BUTTON));
-#endif
+    m_btnTop->SetBitmap(icons::Make(icons::kTop));
+    m_btnUp->SetBitmap(icons::Make(icons::kUp));
+    m_btnDown->SetBitmap(icons::Make(icons::kDown));
+    m_btnBottom->SetBitmap(icons::Make(icons::kBottom));
+    m_btnEdit->SetBitmap(icons::Make(icons::kEdit));
+    m_btnDel->SetBitmap(icons::Make(icons::kDelete));
 
     footerSizer->Add(m_btnTop, 0, wxALL, 5);
     footerSizer->Add(m_btnUp, 0, wxALL, 5);

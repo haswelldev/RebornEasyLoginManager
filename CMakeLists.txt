@@ -90,10 +90,11 @@ if(APPLE)
     )
 endif()
 
-# Windows specific: remove console window and set UTF-8 encoding
+# Windows specific: remove console window, set UTF-8 encoding, link DWM for chrome
 if(WIN32)
     set_target_properties(EasyLoginManager PROPERTIES WIN32_EXECUTABLE TRUE)
     target_compile_options(EasyLoginManager PRIVATE /utf-8)
+    target_link_libraries(EasyLoginManager dwmapi)
 endif()
 
 # Unit tests (Catch2). Opt-in so the default app build stays dependency-light.
