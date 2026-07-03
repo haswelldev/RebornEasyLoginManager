@@ -17,6 +17,7 @@ on:
 
 permissions:
   contents: read
+  actions: write   # delete stale artifacts so re-runs don't duplicate "github-pages"
   pages: write
   id-token: write
 
@@ -45,6 +46,20 @@ jobs:
 
       - name: Inject latest version into the page
         run: sed -i "s/{{VERSION}}/${{ steps.rel.outputs.tag }}/g" site/index.html
+
+      # On a re-run, upload-artifact@v4 keeps the previous attempt's artifact and
+      # adds another, so deploy-pages sees two "github-pages" and fails. Clear any
+      # existing one from this run first so the upload below is the only match.
+      - name: Remove stale Pages artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          ids=$(gh api "repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts" \
+                --jq '.artifacts[] | select(.name=="github-pages") | .id')
+          for id in $ids; do
+            echo "Deleting stale github-pages artifact $id"
+            gh api -X DELETE "repos/${{ github.repository }}/actions/artifacts/$id" || true
+          done
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
