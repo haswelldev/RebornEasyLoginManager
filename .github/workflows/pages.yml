@@ -1,8 +1,9 @@
 name: Deploy Website
 
-# Publishes the static site in site/ to the gh-pages branch. Runs when the site
-# changes, and whenever a release is published so the "latest release" label
-# stays current. Enable once in repo Settings → Pages → Source: gh-pages branch.
+# Builds the static site in site/ and deploys it to GitHub Pages using the
+# official Pages actions (no separate branch). Runs when the site changes, and
+# whenever a release is published so the "latest release" label stays current.
+# One-time setup: repo Settings → Pages → Source = "GitHub Actions".
 
 on:
   push:
@@ -15,15 +16,20 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
 
 concurrency:
-  group: gh-pages
+  group: pages
   cancel-in-progress: true
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
 
@@ -40,10 +46,11 @@ jobs:
       - name: Inject latest version into the page
         run: sed -i "s/{{VERSION}}/${{ steps.rel.outputs.tag }}/g" site/index.html
 
-      - name: Deploy to gh-pages
-        uses: peaceiris/actions-gh-pages@v4
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./site
-          publish_branch: gh-pages
-          commit_message: "Deploy site (release ${{ steps.rel.outputs.tag }})"
+          path: site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

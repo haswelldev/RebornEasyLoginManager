@@ -80,7 +80,7 @@ hideLogin=0
 - The marketing/download site is a dependency-free static site in `site/` (`index.html`, `styles.css`, `assets/logo.png`). No build tooling — edit the HTML/CSS directly.
 - Download buttons use the permanent `releases/latest/download/EasyLoginManager.{dmg,exe}` URLs, so they always point at the newest release without edits.
 - The version label uses a `{{VERSION}}` placeholder that `.github/workflows/pages.yml` replaces with the latest release tag at deploy time; a client-side script (`fetch` to the GitHub API) is a fallback.
-- `pages.yml` deploys `site/` to the **`gh-pages`** branch (via `peaceiris/actions-gh-pages`) on pushes touching `site/`, on published releases, and manually. One-time setup: repo Settings → Pages → Source = `gh-pages` branch. Published URL: `https://haswelldev.github.io/RebornEasyLoginManager/`.
+- `pages.yml` builds `site/` and deploys it via the official GitHub Pages actions (`actions/upload-pages-artifact` + `actions/deploy-pages`) — no separate branch — on pushes touching `site/`, on published releases, and manually. One-time setup: repo Settings → Pages → Source = **GitHub Actions**. Published URL: `https://haswelldev.github.io/RebornEasyLoginManager/`.
 - To preview locally: `python3 -m http.server --directory site` (or the `site` config in `.claude/launch.json`).
 
 ## Platform Notes
