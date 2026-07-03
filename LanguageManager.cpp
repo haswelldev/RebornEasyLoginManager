@@ -68,35 +68,48 @@ bool LanguageManager::LoadLanguage(const wxString& langCode) {
         return false;
     }
 
-    m_strings.clear();
-    m_currentLang = langCode;
-    
+    return LoadFromContent(langCode, content);
+}
+
+bool LanguageManager::LoadFromContent(const wxString& langCode, const wxString& content) {
+    if (content.IsEmpty()) {
+        return false;
+    }
+
+    std::map<wxString, wxString> parsed;
+
     // Very basic JSON parser for "key": "value" pairs
     size_t pos = 0;
     while ((pos = content.find('"', pos)) != wxString::npos) {
         size_t keyStart = pos + 1;
         size_t keyEnd = content.find('"', keyStart);
         if (keyEnd == wxString::npos) break;
-        
+
         wxString key = content.Mid(keyStart, keyEnd - keyStart);
-        
+
         pos = content.find(':', keyEnd);
         if (pos == wxString::npos) break;
-        
+
         pos = content.find('"', pos);
         if (pos == wxString::npos) break;
-        
+
         size_t valStart = pos + 1;
         size_t valEnd = content.find('"', valStart);
         if (valEnd == wxString::npos) break;
-        
+
         wxString val = content.Mid(valStart, valEnd - valStart);
-        m_strings[key] = val;
-        
+        parsed[key] = val;
+
         pos = valEnd + 1;
     }
 
-    return !m_strings.empty();
+    if (parsed.empty()) {
+        return false;
+    }
+
+    m_strings = std::move(parsed);
+    m_currentLang = langCode;
+    return true;
 }
 
 wxString LanguageManager::GetString(const wxString& key) const {

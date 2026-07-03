@@ -44,6 +44,7 @@ add_executable(EasyLoginManager MACOSX_BUNDLE
         MainFrame.cpp
         SettingsDialog.cpp
         LanguageManager.cpp
+        IniParser.cpp
         ${EXE_RESOURCES}
 )
 
@@ -93,4 +94,11 @@ endif()
 if(WIN32)
     set_target_properties(EasyLoginManager PROPERTIES WIN32_EXECUTABLE TRUE)
     target_compile_options(EasyLoginManager PRIVATE /utf-8)
+endif()
+
+# Unit tests (Catch2). Opt-in so the default app build stays dependency-light.
+option(ELM_BUILD_TESTS "Build EasyLoginManager unit tests" OFF)
+if(ELM_BUILD_TESTS)
+    enable_testing()
+    add_subdirectory(tests)
 endif()

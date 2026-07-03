@@ -8,7 +8,27 @@ on:
     branches: [ "main", "master" ]
 
 jobs:
+  test:
+    runs-on: macos-latest
+    env:
+      HOMEBREW_NO_AUTO_UPDATE: 1
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: brew install wxwidgets catch2
+
+      - name: Configure CMake (tests enabled)
+        run: cmake -S . -B build-tests -DCMAKE_BUILD_TYPE=Debug -DELM_BUILD_TESTS=ON
+
+      - name: Build tests
+        run: cmake --build build-tests --target ELMTests --parallel
+
+      - name: Run tests
+        run: ctest --test-dir build-tests --output-on-failure
+
   build-macos:
+    needs: test
     runs-on: macos-latest
     env:
       HOMEBREW_NO_AUTO_UPDATE: 1
@@ -47,6 +67,7 @@ jobs:
           path: EasyLoginManager.dmg
 
   build-windows:
+    needs: test
     runs-on: windows-latest
     env:
       VCPKG_BINARY_SOURCES: clear;files,${{ github.workspace }}/vcpkg_cache,readwrite

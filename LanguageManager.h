@@ -9,6 +9,10 @@ public:
     static LanguageManager& Get();
     
     bool LoadLanguage(const wxString& langCode);
+    // Parses translation JSON that has already been loaded into memory.
+    // Kept separate from LoadLanguage so it can be unit-tested without any
+    // filesystem or Windows-resource access.
+    bool LoadFromContent(const wxString& langCode, const wxString& content);
     wxString GetString(const wxString& key) const;
     wxString GetCurrentLanguage() const { return m_currentLang; }
     
