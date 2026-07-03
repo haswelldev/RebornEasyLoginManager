@@ -369,8 +369,11 @@ void MainFrame::MarkDirty(bool dirty) {
 }
 
 void MainFrame::UpdateTitle() {
+    // Decode the em-dash explicitly as UTF-8: a narrow " — " literal is
+    // interpreted in the local ANSI codepage on Windows, which mangles it.
+    const wxString sep = wxString::FromUTF8(" \xE2\x80\x94 ");
     wxString name = m_iniPath.IsEmpty() ? L("TITLE")
-                                        : wxFileNameFromPath(m_iniPath) + " — " + L("TITLE");
+                                        : wxFileNameFromPath(m_iniPath) + sep + L("TITLE");
     SetTitle((m_dirty ? "*" : "") + name);
 }
 
