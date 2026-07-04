@@ -673,7 +673,7 @@ void MainFrame::OnSettings(wxCommandEvent&) {
 void MainFrame::OnAbout(wxCommandEvent&) {
     wxAboutDialogInfo info;
     info.SetName(L("TITLE"));
-    info.SetVersion("1.1.2");
+    info.SetVersion("1.1.3");
     info.SetDescription(L("ABOUT_TEXT"));
     wxAboutBox(info, this);
 }
