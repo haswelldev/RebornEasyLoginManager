@@ -85,8 +85,8 @@ if(APPLE)
             MACOSX_BUNDLE_GUI_IDENTIFIER "com.l2reborn.easyloginmanager"
             MACOSX_BUNDLE_BUNDLE_NAME "EasyLoginManager"
             MACOSX_BUNDLE_INFO_PLIST_VERSION "6.0"
-            MACOSX_BUNDLE_SHORT_VERSION_STRING "1.1.0"
-            MACOSX_BUNDLE_BUNDLE_VERSION "1.1.0"
+            MACOSX_BUNDLE_SHORT_VERSION_STRING "1.1.2"
+            MACOSX_BUNDLE_BUNDLE_VERSION "1.1.2"
     )
 endif()
 
