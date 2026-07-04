@@ -17,7 +17,10 @@
 #include <wx/menu.h>
 #include <wx/popupwin.h>
 #include <wx/dcmemory.h>
+#include <wx/dcclient.h>
 #include <wx/settings.h>
+#include <wx/control.h>
+#include <wx/statusbr.h>
 
 #ifdef __WXMSW__
 #include <dwmapi.h>
@@ -80,6 +83,13 @@ MainFrame::MainFrame() : wxFrame(nullptr, wxID_ANY, L("TITLE"), wxDefaultPositio
     CreateStatusBar(2);
     int widths[2] = {-1, 200};
     GetStatusBar()->SetStatusWidths(2, widths);
+
+    // Field 0 is stretchy (-1 width), so the space available for the file
+    // path changes as the window resizes; re-ellipsize it when that happens.
+    Bind(wxEVT_SIZE, [this](wxSizeEvent& event) {
+        UpdateStatusBar();
+        event.Skip();
+    });
 
     LoadConfig();
     UpdateTitle();
@@ -203,9 +213,16 @@ void MainFrame::SetupUI() {
         choices.Add(wxString(lang.display));
     }
     m_choiceLang = new wxChoice(m_mainPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, choices);
-    m_choiceLang->SetSelection(LanguageIndexForCode(LanguageManager::Get().GetCurrentLanguage()));
     m_choiceLang->SetFont(uiFont);
+    m_choiceLang->SetSelection(LanguageIndexForCode(LanguageManager::Get().GetCurrentLanguage()));
     m_choiceLang->SetMinSize(wxSize(120, -1));
+#ifdef __WXOSX__
+    // wxChoice/NSPopUpButton on macOS can fail to redraw its title if the font
+    // changes after the selection is set elsewhere; re-asserting the selection
+    // after SetFont forces it to refresh (harmless no-op if not needed).
+    m_choiceLang->SetSelection(m_choiceLang->GetSelection());
+    m_choiceLang->Refresh();
+#endif
     toolbarSizer->Add(m_choiceLang, 0, wxLEFT | wxRIGHT | wxBOTTOM | wxALIGN_CENTER_VERTICAL, 6);
 
     mainSizer->Add(toolbarSizer, 0, wxEXPAND | wxTOP, 6);
@@ -427,9 +444,35 @@ void MainFrame::UpdateTitle() {
 }
 
 void MainFrame::UpdateStatusBar() {
-    if (!GetStatusBar()) return;
-    SetStatusText(m_iniPath.IsEmpty() ? L("STATUS_NO_FILE") : m_iniPath, 0);
+    wxStatusBar* bar = GetStatusBar();
+    if (!bar) return;
+
+    wxString fullText = m_iniPath.IsEmpty() ? L("STATUS_NO_FILE") : m_iniPath;
+
+    wxRect fieldRect;
+    bar->GetFieldRect(0, fieldRect);
+    int maxWidth = fieldRect.width > 12 ? fieldRect.width - 12 : fieldRect.width;
+
+    // Before the frame's first layout pass, the field rect can be 0-width;
+    // fall back to the untruncated text rather than risk an empty label.
+    wxString shown = fullText;
+    if (maxWidth > 0) {
+        wxClientDC dc(bar);
+        dc.SetFont(bar->GetFont());
+        shown = wxControl::Ellipsize(fullText, dc, wxELLIPSIZE_MIDDLE, maxWidth);
+    }
+
+    SetStatusText(shown, 0);
     SetStatusText(wxString::Format(L("STATUS_ACCOUNTS"), (int)m_accounts.size()), 1);
+
+    // Only show a tooltip with the full path when it's actually truncated;
+    // wx status bars don't support per-field tooltips, so this applies to the
+    // whole bar (acceptable since field 1's text never needs one).
+    if (!m_iniPath.IsEmpty() && shown != fullText) {
+        bar->SetToolTip(m_iniPath);
+    } else {
+        bar->UnsetToolTip();
+    }
 }
 
 void MainFrame::FlashStatus(const wxString& message) {
