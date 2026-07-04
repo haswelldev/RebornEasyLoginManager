@@ -159,10 +159,12 @@ a { color: inherit; text-decoration: none; }
 .win-menu { display: flex; gap: 18px; padding: 6px 14px; background: var(--w-bg); border-bottom: 1px solid var(--w-line); font-size: .74rem; color: var(--w-muted); }
 
 .window-toolbar { display: flex; align-items: center; gap: 7px; padding: 10px 12px; background: var(--w-bg); border-bottom: 1px solid var(--w-line); }
-.wb { font-size: .72rem; color: var(--w-text); padding: 5px 10px; border: 1px solid #3a3a3a; border-radius: 5px; background: #232323; white-space: nowrap; }
+.wb { display: inline-flex; align-items: center; font-size: .72rem; color: var(--w-text); padding: 5px 10px; border: 1px solid #3a3a3a; border-radius: 5px; background: #232323; white-space: nowrap; }
 .wb-accent { border-color: var(--w-accent); box-shadow: 0 0 0 1px var(--w-accent); }
 .wb-spacer { flex: 1; }
 .wb-lang { color: var(--w-muted); }
+
+.ic { width: 14px; height: 14px; margin-right: 6px; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
 .window-search { margin: 10px 12px; padding: 7px 12px; background: #1e1e1e; border: 1px solid #3a3a3a; border-radius: 5px; color: var(--w-muted); font-size: .76rem; display: flex; align-items: center; }
 .search-ico { margin-right: 8px; color: var(--w-muted); }
@@ -177,7 +179,7 @@ a { color: inherit; text-decoration: none; }
 .window-list .sel { background: var(--w-sel); }
 .window-list li.sel .acc, .window-list li.sel .desc { color: #fff; }
 .window-footer { display: flex; align-items: center; gap: 6px; padding: 9px 12px; background: var(--w-bar); border-top: 1px solid var(--w-line); }
-.fb { font-size: .68rem; color: var(--w-text); padding: 5px 9px; border: 1px solid #3a3a3a; border-radius: 5px; background: #232323; white-space: nowrap; }
+.fb { display: inline-flex; align-items: center; font-size: .68rem; color: var(--w-text); padding: 5px 9px; border: 1px solid #3a3a3a; border-radius: 5px; background: #232323; white-space: nowrap; }
 .fb-spacer { flex: 1; }
 .window-status { display: flex; justify-content: space-between; gap: 12px; padding: 7px 14px; background: var(--w-bar); border-top: 1px solid var(--w-line); color: var(--w-muted); font-size: .7rem; }
 .window-status .path { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
