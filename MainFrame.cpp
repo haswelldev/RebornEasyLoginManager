@@ -167,6 +167,12 @@ void MainFrame::SetupUI() {
     m_mainPanel = new wxPanel(this);
     auto* mainSizer = new wxBoxSizer(wxVERTICAL);
 
+    // A touch larger than the system default. This also makes native list
+    // rows taller and more legible, which closes most of the row-height gap
+    // between platforms (their default report-mode row heights differ a lot).
+    wxFont uiFont = wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT);
+    uiFont.SetPointSize(uiFont.GetPointSize() + 1);
+
     // Toolbar (Buttons)
     auto* toolbarSizer = new wxBoxSizer(wxHORIZONTAL);
     m_btnOpen = new wxButton(m_mainPanel, wxID_OPEN, L("OPEN_FILE"));
@@ -179,10 +185,15 @@ void MainFrame::SetupUI() {
     m_btnAdd->SetBitmap(icons::Make(icons::kAdd));
     m_btnSettings->SetBitmap(icons::Make(icons::kSettings));
 
-    toolbarSizer->Add(m_btnOpen, 0, wxLEFT | wxRIGHT | wxBOTTOM, 5);
-    toolbarSizer->Add(m_btnSave, 0, wxLEFT | wxRIGHT | wxBOTTOM, 5);
-    toolbarSizer->Add(m_btnAdd, 0, wxLEFT | wxRIGHT | wxBOTTOM, 5);
-    toolbarSizer->Add(m_btnSettings, 0, wxLEFT | wxRIGHT | wxBOTTOM, 5);
+    m_btnOpen->SetFont(uiFont);
+    m_btnSave->SetFont(uiFont);
+    m_btnAdd->SetFont(uiFont);
+    m_btnSettings->SetFont(uiFont);
+
+    toolbarSizer->Add(m_btnOpen, 0, wxLEFT | wxRIGHT | wxBOTTOM, 6);
+    toolbarSizer->Add(m_btnSave, 0, wxLEFT | wxRIGHT | wxBOTTOM, 6);
+    toolbarSizer->Add(m_btnAdd, 0, wxLEFT | wxRIGHT | wxBOTTOM, 6);
+    toolbarSizer->Add(m_btnSettings, 0, wxLEFT | wxRIGHT | wxBOTTOM, 6);
 
     toolbarSizer->AddStretchSpacer();
 
@@ -193,23 +204,26 @@ void MainFrame::SetupUI() {
     }
     m_choiceLang = new wxChoice(m_mainPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, choices);
     m_choiceLang->SetSelection(LanguageIndexForCode(LanguageManager::Get().GetCurrentLanguage()));
-    m_choiceLang->SetMinSize(wxSize(110, -1));
-    toolbarSizer->Add(m_choiceLang, 0, wxLEFT | wxRIGHT | wxBOTTOM | wxALIGN_CENTER_VERTICAL, 5);
+    m_choiceLang->SetFont(uiFont);
+    m_choiceLang->SetMinSize(wxSize(120, -1));
+    toolbarSizer->Add(m_choiceLang, 0, wxLEFT | wxRIGHT | wxBOTTOM | wxALIGN_CENTER_VERTICAL, 6);
 
-    mainSizer->Add(toolbarSizer, 0, wxEXPAND | wxTOP, 5);
+    mainSizer->Add(toolbarSizer, 0, wxEXPAND | wxTOP, 6);
 
     // Search / filter box
     m_search = new wxSearchCtrl(m_mainPanel, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
     m_search->ShowSearchButton(true);
     m_search->ShowCancelButton(true);
     m_search->SetDescriptiveText(L("SEARCH_HINT"));
+    m_search->SetFont(uiFont);
     mainSizer->Add(m_search, 0, wxEXPAND | wxLEFT | wxRIGHT | wxBOTTOM, 12);
 
     // List
     m_listView = new wxListView(m_mainPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_SINGLE_SEL);
     // Zebra striping reads cleaner than the old HRULES/VRULES grid.
     m_listView->EnableAlternateRowColours(true);
-    m_listView->AppendColumn(L("ACCOUNT_ID"), wxLIST_FORMAT_LEFT, 180);
+    m_listView->SetFont(uiFont);
+    m_listView->AppendColumn(L("ACCOUNT_ID"), wxLIST_FORMAT_LEFT, 190);
     m_listView->AppendColumn(L("DESCRIPTION"), wxLIST_FORMAT_LEFT, 250);
 
     mainSizer->Add(m_listView, 1, wxEXPAND | wxLEFT | wxRIGHT | wxBOTTOM, 12);
@@ -255,13 +269,20 @@ void MainFrame::SetupUI() {
     m_btnEdit->SetBitmap(icons::Make(icons::kEdit));
     m_btnDel->SetBitmap(icons::Make(icons::kDelete));
 
-    footerSizer->Add(m_btnTop, 0, wxALL, 5);
-    footerSizer->Add(m_btnUp, 0, wxALL, 5);
-    footerSizer->Add(m_btnDown, 0, wxALL, 5);
-    footerSizer->Add(m_btnBottom, 0, wxALL, 5);
+    m_btnTop->SetFont(uiFont);
+    m_btnUp->SetFont(uiFont);
+    m_btnDown->SetFont(uiFont);
+    m_btnBottom->SetFont(uiFont);
+    m_btnEdit->SetFont(uiFont);
+    m_btnDel->SetFont(uiFont);
+
+    footerSizer->Add(m_btnTop, 0, wxALL, 6);
+    footerSizer->Add(m_btnUp, 0, wxALL, 6);
+    footerSizer->Add(m_btnDown, 0, wxALL, 6);
+    footerSizer->Add(m_btnBottom, 0, wxALL, 6);
     footerSizer->AddStretchSpacer();
-    footerSizer->Add(m_btnEdit, 0, wxALL, 5);
-    footerSizer->Add(m_btnDel, 0, wxALL, 5);
+    footerSizer->Add(m_btnEdit, 0, wxALL, 6);
+    footerSizer->Add(m_btnDel, 0, wxALL, 6);
     mainSizer->Add(footerSizer, 0, wxEXPAND | wxLEFT | wxRIGHT | wxBOTTOM, 5);
 
     m_mainPanel->SetSizer(mainSizer);
@@ -304,6 +325,7 @@ void MainFrame::SetupUI() {
 
     // Inline description editor (floating over the list).
     m_editCtrl = new wxTextCtrl(m_listView, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER | wxBORDER_SIMPLE);
+    m_editCtrl->SetFont(uiFont);
     m_editCtrl->Hide();
     m_editCtrl->Bind(wxEVT_TEXT_ENTER, &MainFrame::OnEditFinish, this);
     m_editCtrl->Bind(wxEVT_KILL_FOCUS, &MainFrame::OnEditFinish, this);
